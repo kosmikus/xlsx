@@ -180,7 +180,7 @@ extractSheetFast ar sst contentTypes caches wf = do
                 collectChildren n (fromChildList "dataValidation")
           skip "hyperlinks"
           skip "printOptions"
-          skip "pageMargins"
+          _wsPageMargins <- maybeFromChild "pageMargins"
           _wsPageSetup <- maybeFromChild "pageSetup"
           skip "headerFooter"
           skip "rowBreaks"
@@ -367,6 +367,8 @@ extractSheet ar sst contentTypes caches wf = do
   -- Likewise, @pageSetup@ also occurs either 0 or 1 times
   let pageSetup = listToMaybe $ cur $/ element (n_ "pageSetup") >=> fromCursor
 
+      pageMargins = listToMaybe $ cur $/ element (n_ "pageMargins") >=> fromCursor
+
       cws = cur $/ element (n_ "cols") &/ element (n_ "col") >=> fromCursor
 
       (rowProps, cells0, sharedFormulas) =
@@ -479,6 +481,7 @@ extractSheet ar sst contentTypes caches wf = do
       pageSetup
       condFormtattings
       validations
+      pageMargins
       pTables
       mAutoFilter
       tables

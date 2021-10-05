@@ -64,6 +64,7 @@ Library
                    , Codec.Xlsx.Types.Internal.FormulaData
                    , Codec.Xlsx.Types.Internal.Relationships
                    , Codec.Xlsx.Types.Internal.SharedStringTable
+                   , Codec.Xlsx.Types.PageMargins
                    , Codec.Xlsx.Types.PageSetup
                    , Codec.Xlsx.Types.PivotTable
                    , Codec.Xlsx.Types.PivotTable.Internal

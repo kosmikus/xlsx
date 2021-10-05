@@ -127,6 +127,7 @@ singleSheetFiles n cells pivFileDatas ws tblIdRef = do
             , nonEmptyElListSimple "mergeCells" . map mergeE1 $ ws ^. wsMerges
             ] ++ map (Just . toElement "conditionalFormatting") cfPairs ++
             [ nonEmptyElListSimple "dataValidations" $ map (toElement "dataValidation") dvPairs
+            , toElement "pageMargins" <$> ws ^. wsPageMargins
             , toElement "pageSetup" <$> ws ^. wsPageSetup
             , fst3 <$> mDrawingData
             , fst <$> mCmntData
