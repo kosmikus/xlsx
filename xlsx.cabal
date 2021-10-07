@@ -55,6 +55,7 @@ Library
                    , Codec.Xlsx.Types.Drawing
                    , Codec.Xlsx.Types.Drawing.Chart
                    , Codec.Xlsx.Types.Drawing.Common
+                   , Codec.Xlsx.Types.HeaderFooter
                    , Codec.Xlsx.Types.Internal
                    , Codec.Xlsx.Types.Internal.CfPair
                    , Codec.Xlsx.Types.Internal.CommentTable

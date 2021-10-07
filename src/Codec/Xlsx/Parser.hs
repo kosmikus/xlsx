@@ -182,7 +182,7 @@ extractSheetFast ar sst contentTypes caches wf = do
           _wsPrintOptions <- maybeFromChild "printOptions"
           _wsPageMargins <- maybeFromChild "pageMargins"
           _wsPageSetup <- maybeFromChild "pageSetup"
-          skip "headerFooter"
+          _wsHeaderFooter <- maybeFromChild "headerFooter"
           skip "rowBreaks"
           skip "colBreaks"
           skip "customProperties"
@@ -371,6 +371,8 @@ extractSheet ar sst contentTypes caches wf = do
 
       pageMargins = listToMaybe $ cur $/ element (n_ "pageMargins") >=> fromCursor
 
+      headerFooter = listToMaybe $ cur $/ element (n_ "headerFooter") >=> fromCursor
+
       cws = cur $/ element (n_ "cols") &/ element (n_ "col") >=> fromCursor
 
       (rowProps, cells0, sharedFormulas) =
@@ -480,6 +482,7 @@ extractSheet ar sst contentTypes caches wf = do
       mDrawing
       merges
       sheetViews
+      headerFooter
       pageSetup
       condFormtattings
       validations
