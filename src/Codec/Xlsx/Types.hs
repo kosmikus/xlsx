@@ -38,6 +38,7 @@ module Codec.Xlsx.Types (
     , wsPageSetup
     , wsConditionalFormattings
     , wsDataValidations
+    , wsPrintOptions
     , wsPageMargins
     , wsPivotTables
     , wsAutoFilter
@@ -94,6 +95,7 @@ import Codec.Xlsx.Types.Drawing.Common as X
 import Codec.Xlsx.Types.PageMargins as X
 import Codec.Xlsx.Types.PageSetup as X
 import Codec.Xlsx.Types.PivotTable as X
+import Codec.Xlsx.Types.PrintOptions as X
 import Codec.Xlsx.Types.Protection as X
 import Codec.Xlsx.Types.RichText as X
 import Codec.Xlsx.Types.SheetViews as X
@@ -190,6 +192,7 @@ data Worksheet = Worksheet
   , _wsPageSetup :: Maybe PageSetup
   , _wsConditionalFormattings :: Map SqRef ConditionalFormatting
   , _wsDataValidations :: Map SqRef DataValidation
+  , _wsPrintOptions :: Maybe PrintOptions
   , _wsPageMargins :: Maybe PageMargins
   , _wsPivotTables :: [PivotTable]
   , _wsAutoFilter :: Maybe AutoFilter
@@ -213,6 +216,7 @@ instance Default Worksheet where
     , _wsPageSetup = Nothing
     , _wsConditionalFormattings = M.empty
     , _wsDataValidations = M.empty
+    , _wsPrintOptions = Nothing
     , _wsPageMargins = Nothing
     , _wsPivotTables = []
     , _wsAutoFilter = Nothing

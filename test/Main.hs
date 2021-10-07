@@ -98,7 +98,7 @@ testXlsx = Xlsx sheets minimalStyles definedNames customProperties DateBase1904
     sheets =
       [("List1", sheet1), ("Another sheet", sheet2), ("with pivot table", pvSheet)]
     sheet1 = Worksheet cols rowProps testCellMap1 drawing ranges
-      sheetViews pageSetup cFormatting validations pageMargins [] (Just autoFilter)
+      sheetViews pageSetup cFormatting validations printOptions pageMargins [] (Just autoFilter)
       tables (Just protection) sharedFormulas
     sharedFormulas =
       M.fromList
@@ -173,6 +173,9 @@ testXlsx = Xlsx sheets minimalStyles definedNames customProperties DateBase1904
                            & pageSetupCopies ?~ 2
                            & pageSetupErrors ?~ PrintErrorsDash
                            & pageSetupPaperSize ?~ PaperA4
+    printOptions = Just $ def & printOptionsGridLines ?~ True
+                              & printOptionsVerticalCentered ?~ True
+                              & printOptionsHeadings ?~ True
     pageMargins = Just $ PageMargins { _pageMarginsLeft   = 0.5
                                      , _pageMarginsRight  = 0.6
                                      , _pageMarginsTop    = 0.3
