@@ -90,7 +90,7 @@ instance FromCursor HeaderFooter where
     return HeaderFooter{..}
 
 instance FromXenoNode HeaderFooter where
-  fromXenoNode root = parseAttributes root $ do
+  fromXenoNode root = do
     ( _headerFooterOddHeader
       , _headerFooterOddFooter
       , _headerFooterEvenHeader
@@ -98,15 +98,16 @@ instance FromXenoNode HeaderFooter where
       , _headerFooterFirstHeader
       , _headerFooterFirstFooter
       ) <-
-      toAttrParser . collectChildren root $
+      collectChildren root $
       (,,,,,) <$> maybeParse "oddHeader" contentX
               <*> maybeParse "oddFooter" contentX
               <*> maybeParse "evenHeader" contentX
               <*> maybeParse "evenFooter" contentX
               <*> maybeParse "firstHeader" contentX
               <*> maybeParse "firstFooter" contentX
-    _headerFooterDifferentOddEven <- maybeAttr "differentOddEven"
-    _headerFooterDifferentFirst   <- maybeAttr "differentFirst"
-    _headerFooterScaleWithDoc     <- maybeAttr "scaleWithDoc"
-    _headerFooterAlignWithMargins <- maybeAttr "alignWithMargins"
-    return HeaderFooter{..}
+    parseAttributes root $ do
+      _headerFooterDifferentOddEven <- maybeAttr "differentOddEven"
+      _headerFooterDifferentFirst   <- maybeAttr "differentFirst"
+      _headerFooterScaleWithDoc     <- maybeAttr "scaleWithDoc"
+      _headerFooterAlignWithMargins <- maybeAttr "alignWithMargins"
+      return HeaderFooter{..}
