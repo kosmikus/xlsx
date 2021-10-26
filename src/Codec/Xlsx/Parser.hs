@@ -182,7 +182,7 @@ extractSheetFast ar sst contentTypes caches wf = do
           _wsPrintOptions <- maybeFromChild "printOptions"
           _wsPageMargins <- maybeFromChild "pageMargins"
           _wsPageSetup <- maybeFromChild "pageSetup"
-          _wsPageSetupPr <- maybeFromChild "pageSetupPr"
+          _wsPageSetUpPr <- maybeFromChild "pageSetUpPr"
           _wsHeaderFooter <- maybeFromChild "headerFooter"
           skip "rowBreaks"
           skip "colBreaks"
@@ -368,7 +368,7 @@ extractSheet ar sst contentTypes caches wf = do
   -- Likewise, @pageSetup@ also occurs either 0 or 1 times
   let pageSetup = listToMaybe $ cur $/ element (n_ "pageSetup") >=> fromCursor
 
-      pageSetupPr = listToMaybe $ cur $/ element (n_ "pageSetupPr") >=> fromCursor
+      pageSetUpPr = listToMaybe $ cur $/ element (n_ "pageSetUpPr") >=> fromCursor
 
       printOptions = listToMaybe $ cur $/ element (n_ "printOptions") >=> fromCursor
 
@@ -487,7 +487,7 @@ extractSheet ar sst contentTypes caches wf = do
       sheetViews
       headerFooter
       pageSetup
-      pageSetupPr
+      pageSetUpPr
       condFormtattings
       validations
       printOptions
