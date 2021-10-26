@@ -37,6 +37,7 @@ module Codec.Xlsx.Types (
     , wsSheetViews
     , wsHeaderFooter
     , wsPageSetup
+    , wsPageSetupPr
     , wsConditionalFormattings
     , wsDataValidations
     , wsPrintOptions
@@ -193,6 +194,7 @@ data Worksheet = Worksheet
   , _wsSheetViews :: Maybe [SheetView]
   , _wsHeaderFooter :: Maybe HeaderFooter
   , _wsPageSetup :: Maybe PageSetup
+  , _wsPageSetupPr :: Maybe PageSetupPr
   , _wsConditionalFormattings :: Map SqRef ConditionalFormatting
   , _wsDataValidations :: Map SqRef DataValidation
   , _wsPrintOptions :: Maybe PrintOptions
@@ -218,6 +220,7 @@ instance Default Worksheet where
     , _wsSheetViews = Nothing
     , _wsHeaderFooter = Nothing
     , _wsPageSetup = Nothing
+    , _wsPageSetupPr = Nothing
     , _wsConditionalFormattings = M.empty
     , _wsDataValidations = M.empty
     , _wsPrintOptions = Nothing

@@ -6,6 +6,7 @@
 module Codec.Xlsx.Types.PageSetup (
     -- * Main types
     PageSetup(..)
+  , PageSetupPr(..)
     -- * Enumerations
   , CellComments(..)
   , PrintErrors(..)
@@ -33,6 +34,8 @@ module Codec.Xlsx.Types.PageSetup (
   , pageSetupUseFirstPageNumber
   , pageSetupUsePrinterDefaults
   , pageSetupVerticalDpi
+  , pageSetupPrAutoPageBreaks
+  , pageSetupPrFitToPage
   ) where
 
 #ifdef USE_MICROLENS
@@ -143,6 +146,13 @@ data PageSetup = PageSetup {
   }
   deriving (Eq, Ord, Show, Generic)
 instance NFData PageSetup
+
+data PageSetupPr = PageSetupPr {
+    _pageSetupPrAutoPageBreaks :: Maybe Bool
+  , _pageSetupPrFitToPage :: Maybe Bool
+  }
+  deriving (Eq, Ord, Show, Generic)
+instance NFData PageSetupPr
 
 {-------------------------------------------------------------------------------
   Enumerations
@@ -301,11 +311,18 @@ instance Default PageSetup where
     , _pageSetupVerticalDpi        = Nothing
    }
 
+instance Default PageSetupPr where
+  def = PageSetupPr {
+      _pageSetupPrAutoPageBreaks = Nothing
+    , _pageSetupPrFitToPage      = Nothing
+    }
+
 {-------------------------------------------------------------------------------
   Lenses
 -------------------------------------------------------------------------------}
 
 makeLenses ''PageSetup
+makeLenses ''PageSetupPr
 
 {-------------------------------------------------------------------------------
   Rendering
@@ -336,6 +353,16 @@ instance ToElement PageSetup where
         , "verticalDpi"        .=? _pageSetupVerticalDpi
         , "copies"             .=? _pageSetupCopies
         , "id"                 .=? _pageSetupId
+        ]
+    }
+
+instance ToElement PageSetupPr where
+  toElement nm PageSetupPr{..} = Element {
+      elementName       = nm
+    , elementNodes      = []
+    , elementAttributes = Map.fromList . catMaybes $ [
+          "autoPageBreaks" .=? _pageSetupPrAutoPageBreaks
+        , "fitToPage"      .=? _pageSetupPrFitToPage
         ]
     }
 
@@ -459,6 +486,12 @@ instance FromCursor PageSetup where
       _pageSetupId                  <- maybeAttribute "id" cur
       return PageSetup{..}
 
+instance FromCursor PageSetupPr where
+    fromCursor cur = do
+      _pageSetupPrAutoPageBreaks <- maybeAttribute "autoPageBreaks" cur
+      _pageSetupPrFitToPage      <- maybeAttribute "fitToPage" cur
+      return PageSetupPr{..}
+
 instance FromXenoNode PageSetup where
   fromXenoNode root =
     parseAttributes root $ do
@@ -482,6 +515,13 @@ instance FromXenoNode PageSetup where
       _pageSetupCopies <- maybeAttr "copies"
       _pageSetupId <- maybeAttr "id"
       return PageSetup {..}
+
+instance FromXenoNode PageSetupPr where
+  fromXenoNode root =
+    parseAttributes root $ do
+      _pageSetupPrAutoPageBreaks <- maybeAttr "autoPageBreaks"
+      _pageSetupPrFitToPage <- maybeAttr "fitToPage"
+      return PageSetupPr {..}
 
 -- | See @paperSize@ (attribute of @pageSetup@), p. 1659
 instance FromAttrVal PaperSize where

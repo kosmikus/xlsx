@@ -131,6 +131,7 @@ singleSheetFiles n cells pivFileDatas ws tblIdRef = do
             , toElement "pageMargins" <$> ws ^. wsPageMargins
             , toElement "headerFooter" <$> ws ^. wsHeaderFooter
             , toElement "pageSetup" <$> ws ^. wsPageSetup
+            , toElement "pageSetupPr" <$> ws ^. wsPageSetupPr
             , fst3 <$> mDrawingData
             , fst <$> mCmntData
             , nonEmptyElListSimple "tableParts"
