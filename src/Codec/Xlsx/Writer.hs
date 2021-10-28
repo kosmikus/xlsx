@@ -118,7 +118,8 @@ singleSheetFiles n cells pivFileDatas ws tblIdRef = do
         root = addNS "http://schemas.openxmlformats.org/spreadsheetml/2006/main" Nothing $
             elementListSimple "worksheet" rootEls
         rootEls = catMaybes $
-            [ elementListSimple "sheetViews" . map (toElement "sheetView") <$> ws ^. wsSheetViews
+            [ toElement "sheetPr" <$> ws ^. wsSheetPr
+            , elementListSimple "sheetViews" . map (toElement "sheetView") <$> ws ^. wsSheetViews
             , nonEmptyElListSimple "cols" . map (toElement "col") $ ws ^. wsColumnsProperties
             , Just . elementListSimple "sheetData" $
               sheetDataXml cells (ws ^. wsRowPropertiesMap) (ws ^. wsSharedFormulas)
@@ -131,7 +132,6 @@ singleSheetFiles n cells pivFileDatas ws tblIdRef = do
             , toElement "pageMargins" <$> ws ^. wsPageMargins
             , toElement "headerFooter" <$> ws ^. wsHeaderFooter
             , toElement "pageSetup" <$> ws ^. wsPageSetup
-            , toElement "pageSetUpPr" <$> ws ^. wsPageSetUpPr
             , fst3 <$> mDrawingData
             , fst <$> mCmntData
             , nonEmptyElListSimple "tableParts"

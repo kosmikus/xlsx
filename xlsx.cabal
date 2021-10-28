@@ -72,6 +72,7 @@ Library
                    , Codec.Xlsx.Types.PrintOptions
                    , Codec.Xlsx.Types.Protection
                    , Codec.Xlsx.Types.RichText
+                   , Codec.Xlsx.Types.SheetPr
                    , Codec.Xlsx.Types.SheetViews
                    , Codec.Xlsx.Types.StyleSheet
                    , Codec.Xlsx.Types.Table

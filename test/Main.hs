@@ -97,8 +97,8 @@ testXlsx = Xlsx sheets minimalStyles definedNames customProperties DateBase1904
   where
     sheets =
       [("List1", sheet1), ("Another sheet", sheet2), ("with pivot table", pvSheet)]
-    sheet1 = Worksheet cols rowProps testCellMap1 drawing ranges
-      sheetViews headerFooter pageSetup pageSetUpPr cFormatting validations printOptions pageMargins [] (Just autoFilter)
+    sheet1 = Worksheet sheetPr cols rowProps testCellMap1 drawing ranges
+      sheetViews headerFooter pageSetup cFormatting validations printOptions pageMargins [] (Just autoFilter)
       tables (Just protection) sharedFormulas
     sharedFormulas =
       M.fromList
@@ -179,7 +179,8 @@ testXlsx = Xlsx sheets minimalStyles definedNames customProperties DateBase1904
                            & pageSetupCopies ?~ 2
                            & pageSetupErrors ?~ PrintErrorsDash
                            & pageSetupPaperSize ?~ PaperA4
-    pageSetUpPr = Just $ def & pageSetUpPrAutoPageBreaks ?~ True
+    sheetPr = Just $ def & sheetPrPageSetUpPr ?~ pageSetUpPr
+    pageSetUpPr = def & pageSetUpPrAutoPageBreaks ?~ True
     printOptions = Just $ def & printOptionsGridLines ?~ True
                               & printOptionsVerticalCentered ?~ True
                               & printOptionsHeadings ?~ True

@@ -149,7 +149,7 @@ extractSheetFast ar sst contentTypes caches wf = do
           skip = void . maybeChild
       (ws, tableIds, drawingRId, legacyDrRId) <-
         liftEither . collectChildren root $ do
-          skip "sheetPr"
+          _wsSheetPr <- maybeFromChild "sheetPr"
           skip "dimension"
           _wsSheetViews <- fmap justNonEmpty . maybeParse "sheetViews" $ \n ->
             collectChildren n $ fromChildList "sheetView"
@@ -182,7 +182,6 @@ extractSheetFast ar sst contentTypes caches wf = do
           _wsPrintOptions <- maybeFromChild "printOptions"
           _wsPageMargins <- maybeFromChild "pageMargins"
           _wsPageSetup <- maybeFromChild "pageSetup"
-          _wsPageSetUpPr <- maybeFromChild "pageSetUpPr"
           _wsHeaderFooter <- maybeFromChild "headerFooter"
           skip "rowBreaks"
           skip "colBreaks"
@@ -368,7 +367,7 @@ extractSheet ar sst contentTypes caches wf = do
   -- Likewise, @pageSetup@ also occurs either 0 or 1 times
   let pageSetup = listToMaybe $ cur $/ element (n_ "pageSetup") >=> fromCursor
 
-      pageSetUpPr = listToMaybe $ cur $/ element (n_ "pageSetUpPr") >=> fromCursor
+      sheetPr = listToMaybe $ cur $/ element (n_ "sheetPr") >=> fromCursor
 
       printOptions = listToMaybe $ cur $/ element (n_ "printOptions") >=> fromCursor
 
@@ -479,6 +478,7 @@ extractSheet ar sst contentTypes caches wf = do
 
   return $
     Worksheet
+      sheetPr
       cws
       rowProps
       cells
@@ -487,7 +487,6 @@ extractSheet ar sst contentTypes caches wf = do
       sheetViews
       headerFooter
       pageSetup
-      pageSetUpPr
       condFormtattings
       validations
       printOptions

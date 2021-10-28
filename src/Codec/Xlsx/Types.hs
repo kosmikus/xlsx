@@ -29,6 +29,7 @@ module Codec.Xlsx.Types (
     , xlCustomProperties
     , xlDateBase
     -- ** Worksheet
+    , wsSheetPr
     , wsColumnsProperties
     , wsRowPropertiesMap
     , wsCells
@@ -37,7 +38,6 @@ module Codec.Xlsx.Types (
     , wsSheetViews
     , wsHeaderFooter
     , wsPageSetup
-    , wsPageSetUpPr
     , wsConditionalFormattings
     , wsDataValidations
     , wsPrintOptions
@@ -101,6 +101,7 @@ import Codec.Xlsx.Types.PivotTable as X
 import Codec.Xlsx.Types.PrintOptions as X
 import Codec.Xlsx.Types.Protection as X
 import Codec.Xlsx.Types.RichText as X
+import Codec.Xlsx.Types.SheetPr as X
 import Codec.Xlsx.Types.SheetViews as X
 import Codec.Xlsx.Types.StyleSheet as X
 import Codec.Xlsx.Types.Table as X
@@ -186,7 +187,8 @@ instance FromXenoNode ColumnsProperties where
 
 -- | Xlsx worksheet
 data Worksheet = Worksheet
-  { _wsColumnsProperties :: [ColumnsProperties] -- ^ column widths
+  { _wsSheetPr :: Maybe SheetPr
+  , _wsColumnsProperties :: [ColumnsProperties] -- ^ column widths
   , _wsRowPropertiesMap :: Map Int RowProperties -- ^ custom row properties (height, style) map
   , _wsCells :: CellMap -- ^ data mapped by (row, column) pairs
   , _wsDrawing :: Maybe Drawing -- ^ SpreadsheetML Drawing
@@ -194,7 +196,6 @@ data Worksheet = Worksheet
   , _wsSheetViews :: Maybe [SheetView]
   , _wsHeaderFooter :: Maybe HeaderFooter
   , _wsPageSetup :: Maybe PageSetup
-  , _wsPageSetUpPr :: Maybe PageSetUpPr
   , _wsConditionalFormattings :: Map SqRef ConditionalFormatting
   , _wsDataValidations :: Map SqRef DataValidation
   , _wsPrintOptions :: Maybe PrintOptions
@@ -212,7 +213,8 @@ makeLenses ''Worksheet
 instance Default Worksheet where
   def =
     Worksheet
-    { _wsColumnsProperties = []
+    { _wsSheetPr = Nothing
+    , _wsColumnsProperties = []
     , _wsRowPropertiesMap = M.empty
     , _wsCells = M.empty
     , _wsDrawing = Nothing
@@ -220,7 +222,6 @@ instance Default Worksheet where
     , _wsSheetViews = Nothing
     , _wsHeaderFooter = Nothing
     , _wsPageSetup = Nothing
-    , _wsPageSetUpPr = Nothing
     , _wsConditionalFormattings = M.empty
     , _wsDataValidations = M.empty
     , _wsPrintOptions = Nothing
