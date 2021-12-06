@@ -130,8 +130,8 @@ singleSheetFiles n cells pivFileDatas ws tblIdRef = do
             [ nonEmptyElListSimple "dataValidations" $ map (toElement "dataValidation") dvPairs
             , toElement "printOptions" <$> ws ^. wsPrintOptions
             , toElement "pageMargins" <$> ws ^. wsPageMargins
-            , toElement "headerFooter" <$> ws ^. wsHeaderFooter
             , toElement "pageSetup" <$> ws ^. wsPageSetup
+            , toElement "headerFooter" <$> ws ^. wsHeaderFooter
             , fst3 <$> mDrawingData
             , fst <$> mCmntData
             , nonEmptyElListSimple "tableParts"
